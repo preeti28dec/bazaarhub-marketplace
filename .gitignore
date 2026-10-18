@@ -3,3 +3,10 @@ node_modules
 dist
 .env
 *.tsbuildinfo
+
+# Vercel CLI / Neon integration artifacts
+.vercel
+.env*.local
+backend/.agents/
+backend/.claude/
+backend/skills-lock.json

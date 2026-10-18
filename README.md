@@ -11,6 +11,7 @@ A full-stack marketplace where **customers** shop, **merchants** sell in the cat
 | Payments | Cash on Delivery + Razorpay (UPI / cards / net banking) when keys are set |
 | DevOps | Docker Compose (db + backend + frontend); Vercel-ready |
 
+🌐 **Live demo:** https://bazaarhub-one.vercel.app (API: https://bazaarhub-api.vercel.app/api/health) — use the [demo accounts](#2-demo-accounts) below
 📹 **Demo video:** [`docs/BazaarHub-demo.mp4`](docs/BazaarHub-demo.mp4) (English narration, ~5 min)
 
 ---
@@ -236,7 +237,24 @@ Vercel runs the frontend and backend as **two separate projects** from this repo
    `BACKEND_URL=https://<backend>.vercel.app`, `PROXY_SECRET=<same string>`. Deploy.
 5. Open the frontend URL and sign in with a demo account.
 
-With the Vercel CLI instead: `npx vercel login`, then `npx vercel --prod` inside `backend/` and inside `frontend/`, adding the same env vars with `npx vercel env add`.
+With the Vercel CLI instead:
+```bash
+npx vercel login
+cd backend
+npx vercel link --yes --project bazaarhub-api
+npx vercel integration add neon          # creates + connects a Neon DB (sets DATABASE_URL)
+printf '%s' "<random>" | npx vercel env add PROXY_SECRET production
+printf 'true' | npx vercel env add COOKIE_SECURE production
+npx vercel deploy --prod
+cd ../frontend
+npx vercel link --yes --project <your-frontend-name>
+printf '%s' "https://<backend>.vercel.app" | npx vercel env add BACKEND_URL production
+printf '%s' "<same random>" | npx vercel env add PROXY_SECRET production
+npx vercel deploy --prod
+```
+> On Windows, run these `printf … |` lines in **Git Bash**, not PowerShell — PowerShell adds an invisible BOM character to piped values, which breaks the env vars.
+
+The backend is pinned to region `iad1` (`backend/vercel.json`) to sit next to the Neon database; change it if your DB is elsewhere.
 
 ---
 

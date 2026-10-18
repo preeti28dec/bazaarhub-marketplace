@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npx prisma generate",
+  "regions": ["iad1"],
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
