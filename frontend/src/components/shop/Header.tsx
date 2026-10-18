@@ -8,6 +8,7 @@ import { api } from '@/lib/api';
 import type { Category } from '@/lib/types';
 import { useShop } from '../providers';
 import { CategoryIcon } from '../CategoryIcon';
+import { Logo } from '../Logo';
 
 const CITIES = ['Delhi NCR', 'Mumbai', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur'];
 
@@ -69,11 +70,8 @@ export function Header({ categories }: { categories: Category[] }) {
         <button className="btn-ghost -ml-2 p-2 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open menu">
           <Menu className="h-5 w-5" />
         </button>
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-lg font-black text-white">B</span>
-          <span className="hidden text-lg font-extrabold tracking-tight text-slate-900 sm:block">
-            Bazaar<span className="text-brand-600">Hub</span>
-          </span>
+        <Link href="/" className="shrink-0" aria-label="BazaarHub home">
+          <Logo compact />
         </Link>
 
         <label className="hidden items-center gap-1.5 rounded-xl px-2 py-1.5 text-sm hover:bg-slate-50 md:flex">

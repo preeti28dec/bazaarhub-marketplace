@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useShop } from '../providers';
+import { Logo, LogoMark } from '../Logo';
 
 const Icons = {
   BadgeCheck, FolderTree, KeyRound, LayoutDashboard, LifeBuoy, LogOut, Menu, Package,
@@ -48,12 +49,8 @@ export function Shell({ nav, title, banner, children }: { nav: NavItem[]; title:
 
   const sidebar = (
     <nav className="flex h-full flex-col">
-      <Link href="/" className="flex items-center gap-2 px-5 py-5">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-lg font-black text-white">B</span>
-        <span>
-          <span className="block text-base font-extrabold leading-none text-white">BazaarHub</span>
-          <span className="text-xs text-slate-400">{title}</span>
-        </span>
+      <Link href="/" className="block px-5 py-5" aria-label="BazaarHub home">
+        <Logo dark subtitle={title} />
       </Link>
       <ul className="flex-1 space-y-0.5 px-3">
         {nav.map((item) => {
@@ -99,7 +96,10 @@ export function Shell({ nav, title, banner, children }: { nav: NavItem[]; title:
         <button className="btn-ghost -ml-2 p-2 lg:hidden" onClick={() => setOpen(true)} aria-label="Open navigation">
           <Icons.Menu className="h-5 w-5" />
         </button>
-        <p className="text-sm font-semibold text-slate-900 lg:hidden">{title}</p>
+        <Link href="/" className="flex items-center gap-2 lg:hidden" aria-label="BazaarHub home">
+          <LogoMark className="h-8 w-8" />
+          <span className="text-sm font-semibold text-slate-900">{title}</span>
+        </Link>
         <div className="ml-auto flex items-center gap-3">
           <div className="hidden text-right sm:block">
             <p className="text-sm font-semibold leading-tight text-slate-900">{user?.merchant?.businessName ?? user?.name}</p>

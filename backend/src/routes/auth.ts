@@ -13,6 +13,14 @@ const limiter = rateLimit({
   limit: 30,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
+  // Behind the Next.js proxy every request comes from the frontend server, so use the
+  // end-user IP it forwards — but only when the shared PROXY_SECRET proves it came from our proxy.
+  keyGenerator: (req) => {
+    const secret = process.env.PROXY_SECRET;
+    const forwarded = req.header('x-client-ip');
+    if (secret && forwarded && req.header('x-proxy-secret') === secret) return forwarded;
+    return req.ip ?? 'unknown';
+  },
   message: { error: 'Too many attempts. Please try again in a few minutes.' },
 });
 

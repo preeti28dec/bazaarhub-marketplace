@@ -10,6 +10,11 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
   const url = `${BACKEND}/api/${params.path.map(encodeURIComponent).join('/')}${req.nextUrl.search}`;
   const headers = new Headers(req.headers);
   HOP_BY_HOP.forEach((h) => headers.delete(h));
+  headers.delete('x-proxy-secret');
+  if (process.env.PROXY_SECRET) {
+    headers.set('x-proxy-secret', process.env.PROXY_SECRET);
+    headers.set('x-client-ip', req.headers.get('x-forwarded-for')?.split(',')[0].trim() || req.ip || 'unknown');
+  }
 
   const hasBody = !['GET', 'HEAD'].includes(req.method);
   try {
